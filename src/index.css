@@ -438,36 +438,99 @@ body {
 }
 
 /* ============================================
-   NEW LIST FORM
+   BOTTOM SHEET MODAL
    ============================================ */
-.new-list-form {
+.sheet-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 46, 26, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  animation: fade-up 0.25s var(--ease) both;
+  align-items: flex-end;
+  justify-content: center;
+  animation: overlay-in 0.25s var(--ease) both;
 }
 
-.new-list-input {
-  flex: 1;
-  padding: 12px 16px;
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.sheet {
+  width: 100%;
   background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px 32px;
+  animation: sheet-up 0.35s var(--ease) both;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  margin: 0 auto 20px;
+}
+
+.sheet-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+}
+
+.sheet-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.sheet-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
   border: 1.5px solid var(--border);
-  border-radius: var(--radius-pill);
-  font-size: 14px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
   font-family: var(--font-body);
   color: var(--fg);
-  height: 48px;
+  height: 52px;
   transition: all 0.2s var(--ease);
+  margin-bottom: 20px;
 }
 
-.new-list-input::placeholder {
+.sheet-input::placeholder {
   color: var(--muted-fg);
 }
 
-.new-list-input:focus {
+.sheet-input:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(46, 158, 79, 0.15);
+  background: var(--surface);
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.sheet-btn {
+  flex: 1;
+  min-height: 48px;
 }
 
 /* ============================================
