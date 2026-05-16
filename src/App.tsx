@@ -28,6 +28,7 @@ export default function App() {
       <Home
         lists={lists}
         onAddList={addList}
+        onDeleteList={deleteList}
         onSelectList={setActiveListId}
       />
     </div>

@@ -5,10 +5,11 @@ import { useState } from 'react'
 interface HomeProps {
   lists: ShoppingList[]
   onAddList: (name: string) => void
+  onDeleteList: (listId: string) => void
   onSelectList: (listId: string) => void
 }
 
-export default function Home({ lists, onAddList, onSelectList }: HomeProps) {
+export default function Home({ lists, onAddList, onDeleteList, onSelectList }: HomeProps) {
   const [newName, setNewName] = useState('')
   const [showInput, setShowInput] = useState(false)
 
@@ -34,6 +35,7 @@ export default function Home({ lists, onAddList, onSelectList }: HomeProps) {
           key={list.id}
           list={list}
           onClick={() => onSelectList(list.id)}
+          onDelete={() => onDeleteList(list.id)}
         />
       ))}
 

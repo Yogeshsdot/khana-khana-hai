@@ -3,24 +3,34 @@ import type { ShoppingList } from '../types'
 interface ListCardProps {
   list: ShoppingList
   onClick: () => void
+  onDelete: () => void
 }
 
-export default function ListCard({ list, onClick }: ListCardProps) {
+export default function ListCard({ list, onClick, onDelete }: ListCardProps) {
   const total = list.items.length
   const checked = list.items.filter(i => i.checked).length
   const allDone = total > 0 && checked === total
 
   return (
-    <button className="list-card" onClick={onClick}>
-      <div className="list-card-info">
-        <span className="list-card-name">{list.name}</span>
-        <span className="list-card-meta">
-          {total} item{total !== 1 ? 's' : ''}
-          {total > 0 && ` · ${checked} checked`}
-          {allDone && ' ✅'}
-        </span>
-      </div>
-      <span className="list-card-arrow">→</span>
-    </button>
+    <div className="list-card">
+      <button className="list-card-main" onClick={onClick}>
+        <div className="list-card-info">
+          <span className="list-card-name">{list.name}</span>
+          <span className="list-card-meta">
+            {total} item{total !== 1 ? 's' : ''}
+            {total > 0 && ` · ${checked} checked`}
+            {allDone && ' ✅'}
+          </span>
+        </div>
+        <span className="list-card-arrow">→</span>
+      </button>
+      <button
+        className="list-card-delete"
+        onClick={onDelete}
+        aria-label={`Delete ${list.name}`}
+      >
+        ✕
+      </button>
+    </div>
   )
 }
