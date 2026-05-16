@@ -9,28 +9,43 @@ export default function App() {
 
   const activeList = activeListId ? lists.find(l => l.id === activeListId) : null
 
-  if (activeList) {
-    return (
-      <div className="app">
-        <ListDetail
-          list={activeList}
-          onBack={() => setActiveListId(null)}
-          onAddItem={(name, qty, unit) => addItem(activeList.id, name, qty, unit)}
-          onToggleItem={(itemId) => toggleItem(activeList.id, itemId)}
-          onDeleteItem={(itemId) => deleteItem(activeList.id, itemId)}
-        />
-      </div>
-    )
-  }
+  const content = activeList ? (
+    <ListDetail
+      list={activeList}
+      onBack={() => setActiveListId(null)}
+      onAddItem={(name, qty, unit) => addItem(activeList.id, name, qty, unit)}
+      onToggleItem={(itemId) => toggleItem(activeList.id, itemId)}
+      onDeleteItem={(itemId) => deleteItem(activeList.id, itemId)}
+    />
+  ) : (
+    <Home
+      lists={lists}
+      onAddList={addList}
+      onDeleteList={deleteList}
+      onSelectList={setActiveListId}
+    />
+  )
 
   return (
-    <div className="app">
-      <Home
-        lists={lists}
-        onAddList={addList}
-        onDeleteList={deleteList}
-        onSelectList={setActiveListId}
-      />
+    <div className="phone-stage">
+      <div className="phone-frame">
+        <div className="phone-notch">
+          <div className="phone-notch-camera" />
+        </div>
+        <div className="phone-status-bar">
+          <span>9:41</span>
+          <div className="phone-status-icons">
+            <span>●●●●○</span>
+            <span>🔋</span>
+          </div>
+        </div>
+        <div className="phone-screen">
+          <div className="app">
+            {content}
+          </div>
+        </div>
+        <div className="phone-home-indicator" />
+      </div>
     </div>
   )
 }

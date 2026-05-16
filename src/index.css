@@ -49,22 +49,169 @@
 body {
   font-family: var(--font-body);
   font-weight: 400;
-  background: var(--bg);
+  background: #1a1a2e;
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(244, 114, 182, 0.1) 0%, transparent 50%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 20px 20px;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 /* ============================================
-   APP SHELL
+   PHONE MOCKUP FRAME
+   ============================================ */
+.phone-stage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px;
+  min-height: 100dvh;
+}
+
+.phone-frame {
+  width: 390px;
+  min-height: 780px;
+  background: #0f0f0f;
+  border-radius: 52px;
+  padding: 12px;
+  position: relative;
+  box-shadow:
+    0 0 0 2px #2a2a2a,
+    0 0 0 4px #0f0f0f,
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(139, 92, 246, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: #0f0f0f;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-notch-camera {
+  width: 10px;
+  height: 10px;
+  background: #1a1a2e;
+  border-radius: 50%;
+  border: 2px solid #2a2a2a;
+}
+
+.phone-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 28px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  background: var(--bg);
+  border-radius: 40px 40px 0 0;
+  position: relative;
+  z-index: 5;
+}
+
+.phone-status-icons {
+  display: flex;
+  gap: 6px;
+  font-size: 11px;
+  align-items: center;
+}
+
+.phone-screen {
+  flex: 1;
+  background: var(--bg);
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.phone-screen::-webkit-scrollbar {
+  display: none;
+}
+
+.phone-home-indicator {
+  height: 28px;
+  background: var(--bg);
+  border-radius: 0 0 40px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-home-indicator::after {
+  content: "";
+  width: 120px;
+  height: 5px;
+  background: var(--fg);
+  border-radius: var(--radius-full);
+  opacity: 0.2;
+}
+
+/* ============================================
+   APP SHELL (inside phone screen)
    ============================================ */
 .app {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 20px 16px;
-  min-height: 100dvh;
+  padding: 16px 18px 24px;
+  min-height: 100%;
   position: relative;
+}
+
+/* ============================================
+   RESPONSIVE — Real mobile: no frame needed
+   ============================================ */
+@media (max-width: 500px) {
+  body {
+    background: var(--bg);
+    background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .phone-stage {
+    padding: 0;
+    min-height: auto;
+  }
+
+  .phone-frame {
+    width: 100%;
+    min-height: 100dvh;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .phone-notch,
+  .phone-status-bar,
+  .phone-home-indicator {
+    display: none;
+  }
+
+  .phone-screen {
+    border-radius: 0;
+    min-height: 100dvh;
+  }
+
+  .app {
+    padding: 20px 16px;
+  }
 }
 
 /* ============================================
@@ -649,9 +796,9 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE — Mobile adjustments
+   RESPONSIVE — Small screen adjustments
    ============================================ */
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .list-card {
     box-shadow: 3px 3px 0px 0px var(--border);
   }
