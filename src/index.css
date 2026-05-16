@@ -148,3 +148,43 @@ body {
   cursor: pointer;
   font-family: inherit;
 }
+
+/* AddItemForm */
+.add-item-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.add-item-name {
+  flex: 1;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.add-item-name:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.add-item-qty {
+  width: 64px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  text-align: center;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.add-item-qty:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
