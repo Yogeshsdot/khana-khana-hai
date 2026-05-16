@@ -257,3 +257,35 @@ body {
   padding: 4px;
   line-height: 1;
 }
+
+/* ListDetail */
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.detail-back {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.detail-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.detail-progress {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 16px;
+  padding: 8px;
+  border-top: 1px solid var(--border);
+}
