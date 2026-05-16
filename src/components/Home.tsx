@@ -25,15 +25,14 @@ export default function Home({ lists, onAddList, onDeleteList, onSelectList }: H
   return (
     <div>
       <div className="home-header">
-        <h1 className="app-title">🍽️ Khana khana hai</h1>
-        <span className="squiggle" aria-hidden="true" />
+        <h1 className="app-title">🥬 Khana khana hai</h1>
         <p className="app-subtitle">
-          Your <span className="highlight">playful</span> grocery companion
+          Your <span className="highlight">fresh</span> grocery companion
         </p>
       </div>
 
       {lists.length === 0 && (
-        <p className="empty-state">No lists yet — tap below to create your first one!</p>
+        <p className="empty-state">No lists yet — tap below to start shopping!</p>
       )}
 
       {lists.map((list, i) => (
