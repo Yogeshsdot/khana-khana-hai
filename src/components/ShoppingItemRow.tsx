@@ -1,16 +1,24 @@
 import type { ShoppingItem } from '../types'
 
+const COLORS = ['violet', 'pink', 'yellow', 'mint'] as const
+
 interface ShoppingItemRowProps {
   item: ShoppingItem
+  index: number
   onToggle: () => void
   onDelete: () => void
 }
 
-export default function ShoppingItemRow({ item, onToggle, onDelete }: ShoppingItemRowProps) {
+export default function ShoppingItemRow({ item, index, onToggle, onDelete }: ShoppingItemRowProps) {
+  const color = COLORS[index % COLORS.length]
+
   return (
-    <div className={`item-row ${item.checked ? 'item-row--checked' : ''}`}>
+    <div
+      className={`item-row ${item.checked ? 'item-row--checked' : ''}`}
+      style={{ animationDelay: `${index * 0.04}s` }}
+    >
       <button
-        className={`item-checkbox ${item.checked ? 'item-checkbox--checked' : ''}`}
+        className={`item-checkbox item-checkbox--${color} ${item.checked ? `item-checkbox--checked` : ''}`}
         onClick={onToggle}
         aria-label={item.checked ? 'Uncheck item' : 'Check item'}
       >

@@ -1,16 +1,43 @@
+/* ============================================
+   DESIGN TOKENS — Playful Geometric
+   ============================================ */
 :root {
-  --bg: #f8f9fa;
-  --surface: #ffffff;
-  --border: #e8e8e8;
-  --accent: #e85d04;
-  --accent-shadow: rgba(232, 93, 4, 0.3);
-  --text-primary: #1a1a1a;
-  --text-secondary: #888888;
-  --danger: #dc3545;
-  --radius-lg: 12px;
-  --radius-md: 8px;
+  --bg: #FFFDF5;
+  --fg: #1E293B;
+  --muted: #F1F5F9;
+  --muted-fg: #64748B;
+  --accent: #8B5CF6;
+  --accent-fg: #FFFFFF;
+  --secondary: #F472B6;
+  --tertiary: #FBBF24;
+  --quaternary: #34D399;
+  --border: #E2E8F0;
+  --border-hard: #1E293B;
+  --card: #FFFFFF;
+  --input: #FFFFFF;
+  --danger: #EF4444;
+  --ring: #8B5CF6;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  --border-w: 2px;
+
+  --shadow: 4px 4px 0px 0px var(--border-hard);
+  --shadow-hover: 6px 6px 0px 0px var(--border-hard);
+  --shadow-active: 2px 2px 0px 0px var(--border-hard);
+  --shadow-soft: 6px 6px 0px 0px var(--border);
+
+  --font-heading: "Outfit", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* ============================================
+   RESET & BASE
+   ============================================ */
 *,
 *::before,
 *::after {
@@ -20,47 +47,188 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
+  font-weight: 400;
   background: var(--bg);
-  color: var(--text-primary);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
+/* ============================================
+   APP SHELL
+   ============================================ */
 .app {
   max-width: 480px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px 16px;
   min-height: 100dvh;
+  position: relative;
 }
 
-/* ListCard */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes confetti-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   HOME — Title & Layout
+   ============================================ */
+.app-title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  position: relative;
+  display: inline-block;
+  animation: pop-in 0.5s var(--bounce) both;
+}
+
+.app-subtitle {
+  font-size: 15px;
+  color: var(--muted-fg);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.app-subtitle .highlight {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.home-header {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.home-header::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  width: 40px;
+  height: 40px;
+  background: var(--tertiary);
+  border-radius: 50%;
+  border: var(--border-w) solid var(--border-hard);
+  z-index: -1;
+  animation: float 3s ease-in-out infinite;
+}
+
+.home-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 40px;
+  width: 20px;
+  height: 20px;
+  background: var(--secondary);
+  border: var(--border-w) solid var(--border-hard);
+  z-index: -1;
+  transform: rotate(45deg);
+  animation: float 4s ease-in-out infinite 0.5s;
+}
+
+.squiggle {
+  display: block;
+  height: 8px;
+  width: 80px;
+  margin-top: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0px,
+    var(--accent) 8px,
+    transparent 8px,
+    transparent 12px
+  );
+  border-radius: var(--radius-full);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted-fg);
+  padding: 48px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  background: var(--card);
+  border: var(--border-w) dashed var(--border);
+  border-radius: var(--radius-lg);
+  animation: pop-in 0.4s var(--bounce) both;
+}
+
+/* ============================================
+   LIST CARD — "Sticker" Style
+   ============================================ */
 .list-card {
   display: flex;
-  align-items: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.15s;
+  align-items: stretch;
+  background: var(--card);
+  border: var(--border-w) solid var(--border-hard);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s var(--bounce);
   overflow: hidden;
+  position: relative;
+  animation: pop-in 0.4s var(--bounce) both;
 }
 
 .list-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: rotate(-1deg) scale(1.02);
+  box-shadow: var(--shadow-hover);
 }
+
+.list-card-accent {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.list-card-accent--violet { background: var(--accent); }
+.list-card-accent--pink { background: var(--secondary); }
+.list-card-accent--yellow { background: var(--tertiary); }
+.list-card-accent--mint { background: var(--quaternary); }
 
 .list-card-main {
   flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px;
+  padding: 16px;
   background: none;
   border: none;
   cursor: pointer;
   font: inherit;
   text-align: left;
+  gap: 12px;
 }
 
 .list-card-info {
@@ -70,247 +238,440 @@ body {
 }
 
 .list-card-name {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--fg);
 }
 
 .list-card-meta {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--muted-fg);
+  font-weight: 500;
 }
 
 .list-card-arrow {
-  font-size: 20px;
-  color: var(--accent);
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 50%;
+  border: var(--border-w) solid var(--border-hard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--bounce);
+}
+
+.list-card-main:hover .list-card-arrow {
+  transform: translateX(3px);
 }
 
 .list-card-delete {
   background: none;
   border: none;
-  border-left: 1px solid var(--border);
+  border-left: var(--border-w) solid var(--border);
   color: var(--danger);
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 14px 12px;
+  padding: 16px 14px;
   align-self: stretch;
-  opacity: 0.6;
-  transition: opacity 0.15s;
+  opacity: 0.5;
+  transition: all 0.3s var(--bounce);
 }
 
 .list-card-delete:hover {
   opacity: 1;
+  background: #FEF2F2;
 }
 
-/* Home */
-.app-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.empty-state {
-  text-align: center;
-  color: var(--text-secondary);
-  padding: 40px 0;
-  font-size: 15px;
-}
-
+/* ============================================
+   BUTTONS
+   ============================================ */
 .btn-new-list {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-lg);
-  font-size: 16px;
+  color: var(--accent-fg);
+  border: var(--border-w) solid var(--border-hard);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
-  margin-top: 8px;
-  box-shadow: 0 2px 8px var(--accent-shadow);
-  font-family: inherit;
+  margin-top: 12px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s var(--bounce);
 }
 
+.btn-new-list:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-new-list:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-accent {
+  padding: 12px 20px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: var(--border-w) solid var(--border-hard);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all 0.3s var(--bounce);
+}
+
+.btn-accent:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-accent:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-cancel {
+  padding: 12px 20px;
+  background: transparent;
+  color: var(--fg);
+  border: var(--border-w) solid var(--border-hard);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s var(--bounce);
+}
+
+.btn-cancel:hover {
+  background: var(--tertiary);
+}
+
+/* ============================================
+   NEW LIST FORM
+   ============================================ */
 .new-list-form {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 12px;
+  animation: pop-in 0.3s var(--bounce) both;
 }
 
 .new-list-input {
   flex: 1;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  padding: 12px 16px;
+  background: var(--input);
+  border: var(--border-w) solid #CBD5E1;
   border-radius: var(--radius-md);
   font-size: 15px;
-  font-family: inherit;
-  color: var(--text-primary);
+  font-family: var(--font-body);
+  color: var(--fg);
+  box-shadow: 4px 4px 0px transparent;
+  transition: all 0.3s var(--bounce);
 }
 
 .new-list-input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 4px 4px 0px var(--accent);
 }
 
-.btn-accent {
-  padding: 12px 16px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.btn-cancel {
-  padding: 12px 16px;
-  background: var(--surface);
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-family: inherit;
-}
-
-/* AddItemForm */
+/* ============================================
+   ADD ITEM FORM
+   ============================================ */
 .add-item-form {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .add-item-name {
   flex: 1;
-  padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  padding: 12px 16px;
+  background: var(--input);
+  border: var(--border-w) solid #CBD5E1;
   border-radius: var(--radius-md);
   font-size: 15px;
-  font-family: inherit;
-  color: var(--text-primary);
+  font-family: var(--font-body);
+  color: var(--fg);
+  box-shadow: 4px 4px 0px transparent;
+  transition: all 0.3s var(--bounce);
 }
 
 .add-item-name:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 4px 4px 0px var(--accent);
 }
 
 .add-item-qty {
-  width: 64px;
+  width: 70px;
   padding: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--input);
+  border: var(--border-w) solid #CBD5E1;
   border-radius: var(--radius-md);
   font-size: 15px;
   text-align: center;
-  font-family: inherit;
-  color: var(--text-primary);
+  font-family: var(--font-body);
+  color: var(--fg);
+  box-shadow: 4px 4px 0px transparent;
+  transition: all 0.3s var(--bounce);
 }
 
 .add-item-qty:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 4px 4px 0px var(--secondary);
 }
 
-/* ShoppingItemRow */
+/* ============================================
+   SHOPPING ITEM ROW
+   ============================================ */
 .item-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--card);
+  border: var(--border-w) solid var(--border-hard);
   border-radius: var(--radius-md);
-  padding: 12px;
-  margin-bottom: 8px;
-  transition: opacity 0.2s;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 0px 0px var(--border);
+  transition: all 0.3s var(--bounce);
+  animation: pop-in 0.3s var(--bounce) both;
+}
+
+.item-row:hover {
+  transform: translateX(2px);
+  box-shadow: 4px 4px 0px 0px var(--border);
 }
 
 .item-row--checked {
-  opacity: 0.5;
+  opacity: 0.55;
+  background: var(--muted);
+}
+
+.item-row--checked:hover {
+  transform: none;
+  box-shadow: 3px 3px 0px 0px var(--border);
 }
 
 .item-checkbox {
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  border-radius: 6px;
-  border: 2px solid var(--accent);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: var(--radius-sm);
+  border: var(--border-w) solid var(--border-hard);
   background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  transition: all 0.3s var(--bounce);
 }
 
-.item-checkbox--checked {
-  background: var(--accent);
-  border-color: var(--accent);
+.item-checkbox:hover {
+  transform: scale(1.15);
 }
+
+.item-checkbox--violet { border-color: var(--accent); }
+.item-checkbox--pink { border-color: var(--secondary); }
+.item-checkbox--yellow { border-color: var(--tertiary); }
+.item-checkbox--mint { border-color: var(--quaternary); }
+
+.item-checkbox--checked {
+  border-color: var(--border-hard);
+  color: var(--accent-fg);
+}
+
+.item-checkbox--checked.item-checkbox--violet { background: var(--accent); }
+.item-checkbox--checked.item-checkbox--pink { background: var(--secondary); }
+.item-checkbox--checked.item-checkbox--yellow { background: var(--tertiary); }
+.item-checkbox--checked.item-checkbox--mint { background: var(--quaternary); }
 
 .item-checkmark {
   color: #fff;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 800;
   line-height: 1;
+}
+
+.item-checkbox--checked.item-checkbox--yellow .item-checkmark {
+  color: var(--fg);
 }
 
 .item-name {
   flex: 1;
   font-size: 15px;
+  font-weight: 500;
 }
 
 .item-row--checked .item-name {
   text-decoration: line-through;
-  color: var(--text-secondary);
+  color: var(--muted-fg);
 }
 
 .item-qty {
-  font-size: 13px;
-  color: var(--text-secondary);
+  font-size: 12px;
+  color: var(--muted-fg);
+  font-weight: 700;
   white-space: nowrap;
+  background: var(--muted);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .item-delete {
   background: none;
   border: none;
   color: var(--danger);
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   padding: 4px;
   line-height: 1;
+  opacity: 0.4;
+  transition: all 0.3s var(--bounce);
 }
 
-/* ListDetail */
+.item-delete:hover {
+  opacity: 1;
+  transform: scale(1.2) rotate(90deg);
+}
+
+/* ============================================
+   LIST DETAIL
+   ============================================ */
 .detail-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 24px;
+  animation: pop-in 0.4s var(--bounce) both;
 }
 
 .detail-back {
-  background: none;
-  border: none;
-  color: var(--accent);
+  width: 40px;
+  height: 40px;
+  background: var(--card);
+  border: var(--border-w) solid var(--border-hard);
+  border-radius: 50%;
+  color: var(--fg);
   font-size: 20px;
   cursor: pointer;
-  padding: 4px;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0px 0px var(--border-hard);
+  transition: all 0.3s var(--bounce);
+  flex-shrink: 0;
+}
+
+.detail-back:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px 0px var(--border-hard);
+  background: var(--tertiary);
+}
+
+.detail-back:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px 0px var(--border-hard);
 }
 
 .detail-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--fg);
 }
 
 .detail-progress {
   text-align: center;
-  color: var(--text-secondary);
+  margin-top: 24px;
+  padding: 16px;
+  animation: pop-in 0.4s var(--bounce) both;
+}
+
+.progress-bar {
+  height: 12px;
+  background: var(--muted);
+  border-radius: var(--radius-full);
+  border: var(--border-w) solid var(--border-hard);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--secondary));
+  border-radius: var(--radius-full);
+  transition: width 0.5s var(--bounce);
+}
+
+.progress-text {
   font-size: 13px;
-  margin-top: 16px;
-  padding: 8px;
-  border-top: 1px solid var(--border);
+  color: var(--muted-fg);
+  font-weight: 500;
+}
+
+.progress-text strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ============================================
+   FOCUS STATES — Accessibility
+   ============================================ */
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-accent:focus-visible,
+.btn-new-list:focus-visible {
+  outline-offset: 4px;
+  box-shadow: var(--shadow-hover);
+}
+
+/* ============================================
+   RESPONSIVE — Mobile adjustments
+   ============================================ */
+@media (max-width: 480px) {
+  .list-card {
+    box-shadow: 3px 3px 0px 0px var(--border);
+  }
+
+  .list-card:hover {
+    transform: none;
+    box-shadow: 3px 3px 0px 0px var(--border);
+  }
+
+  .item-row {
+    box-shadow: 2px 2px 0px 0px var(--border);
+  }
+
+  .home-header::before,
+  .home-header::after {
+    display: none;
+  }
+
+  .btn-new-list,
+  .btn-accent {
+    min-height: 48px;
+  }
 }

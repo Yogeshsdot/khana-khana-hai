@@ -24,16 +24,23 @@ export default function Home({ lists, onAddList, onDeleteList, onSelectList }: H
 
   return (
     <div>
-      <h1 className="app-title">🍽️ Khana khana hai</h1>
+      <div className="home-header">
+        <h1 className="app-title">🍽️ Khana khana hai</h1>
+        <span className="squiggle" aria-hidden="true" />
+        <p className="app-subtitle">
+          Your <span className="highlight">playful</span> grocery companion
+        </p>
+      </div>
 
       {lists.length === 0 && (
-        <p className="empty-state">No lists yet. Create one to get started!</p>
+        <p className="empty-state">No lists yet — tap below to create your first one!</p>
       )}
 
-      {lists.map(list => (
+      {lists.map((list, i) => (
         <ListCard
           key={list.id}
           list={list}
+          index={i}
           onClick={() => onSelectList(list.id)}
           onDelete={() => onDeleteList(list.id)}
         />

@@ -21,6 +21,7 @@ export default function ListDetail({
   const checked = list.items.filter(i => i.checked)
   const total = list.items.length
   const checkedCount = checked.length
+  const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0
 
   return (
     <div>
@@ -32,22 +33,24 @@ export default function ListDetail({
       <AddItemForm onAdd={onAddItem} />
 
       {total === 0 && (
-        <p className="empty-state">No items yet. Add something above!</p>
+        <p className="empty-state">No items yet — add something above!</p>
       )}
 
-      {unchecked.map(item => (
+      {unchecked.map((item, i) => (
         <ShoppingItemRow
           key={item.id}
           item={item}
+          index={i}
           onToggle={() => onToggleItem(item.id)}
           onDelete={() => onDeleteItem(item.id)}
         />
       ))}
 
-      {checked.map(item => (
+      {checked.map((item, i) => (
         <ShoppingItemRow
           key={item.id}
           item={item}
+          index={unchecked.length + i}
           onToggle={() => onToggleItem(item.id)}
           onDelete={() => onDeleteItem(item.id)}
         />
@@ -55,7 +58,12 @@ export default function ListDetail({
 
       {total > 0 && (
         <div className="detail-progress">
-          {checkedCount} of {total} item{total !== 1 ? 's' : ''} checked
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${percent}%` }} />
+          </div>
+          <p className="progress-text">
+            <strong>{checkedCount}</strong> of <strong>{total}</strong> item{total !== 1 ? 's' : ''} checked
+          </p>
         </div>
       )}
     </div>
